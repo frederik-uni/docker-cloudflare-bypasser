@@ -1,0 +1,9 @@
+services:
+  bot-1:
+    restart: "no"
+    shm_size: 800m
+    ports:
+      - "8000:8000"
+    build:
+      dockerfile: Dockerfile
+      context: .
