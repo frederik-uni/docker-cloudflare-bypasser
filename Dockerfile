@@ -28,6 +28,7 @@ RUN apt-get update && apt-get install -y \
     xdg-utils \
     xvfb \
     software-properties-common \
+    git \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
@@ -38,11 +39,15 @@ ENV PYTHONUNBUFFERED=1
 RUN mkdir app
 WORKDIR /app
 COPY cloudflare-bypasser.py /app
+COPY clicker.py /app
 
+RUN touch /root/.Xauthority
 
 RUN python -m pip install --upgrade botasaurus
-RUN pip install pyautogui uvicorn fastapi
-
+RUN pip install uvicorn fastapi
+RUN  pip install git+https://github.com/frederik-uni/botasaurus@extra-args-decorator --force-reinstall --no-deps
+RUN  pip install git+https://github.com/frederik-uni/botasaurus-driver@core  --force-reinstall --no-deps
+RUN pip install git+https://github.com/frederik-uni/pyautogui@reinit-display  --force-reinstall
 EXPOSE 8000
 
 CMD ["python", "cloudflare-bypasser.py"]
